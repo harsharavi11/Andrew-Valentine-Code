@@ -6,12 +6,6 @@
     <title>For Jane ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --primary-pink: #ff4d6d;
-            --dark-pink: #c9184a;
-            --soft-pink: #ffccd5;
-        }
-
         body {
             margin: 0;
             height: 100vh;
@@ -19,107 +13,75 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden;
-        }
-
-        /* Glassmorphism Card */
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            font-family: sans-serif;
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 85%;
+            max-width: 350px;
             z-index: 10;
-            border: 1px solid rgba(255,255,255,0.4);
         }
-
-        h1 {
-            color: var(--dark-pink);
-            font-size: 2.2rem;
-            margin-top: 0;
-        }
-
+        h1 { color: #d90429; margin-bottom: 20px; font-size: 1.8rem; }
         .btn-container {
             display: flex;
-            gap: 20px;
             justify-content: center;
-            align-items: center;
-            height: 120px;
-            position: relative;
+            gap: 15px;
+            height: 50px;
+            margin-bottom: 20px;
         }
-
-        #yesBtn {
-            padding: 15px 40px;
-            font-size: 1.3rem;
-            background-color: var(--primary-pink);
-            color: white;
+        button {
+            padding: 10px 25px;
+            font-size: 1rem;
+            border-radius: 25px;
             border: none;
-            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 8px 15px rgba(255, 77, 109, 0.3);
-            z-index: 20;
-            transition: transform 0.2s;
-        }
-
-        #yesBtn:active { transform: scale(0.95); }
-
-        #noBtn {
-            padding: 15px 40px;
-            font-size: 1.3rem;
-            background-color: #adb5bd;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            z-index: 20;
-            position: relative;
-            touch-action: none;
-        }
-
-        #victoryGif {
-            display: none;
-            width: 100%;
-            border-radius: 15px;
-            margin: 20px 0;
-        }
-
-        #finalMessage {
-            display: none;
-            color: var(--dark-pink);
-            font-size: 1.5rem;
             font-weight: bold;
-            margin-top: 10px;
-            animation: fadeIn 1s ease-in;
         }
-
-        .footer-text {
-            color: var(--dark-pink);
-            opacity: 0.7;
-            font-size: 0.9rem;
-            margin-top: 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        #yesBtn { background-color: #ff4d6d; color: white; }
+        #noBtn { background-color: #8d99ae; color: white; position: relative; }
+        #victoryGif { display: none; width: 100%; border-radius: 10px; margin-top: 15px; }
+        #msg { display: none; color: #d90429; font-size: 1.2rem; font-weight: bold; margin-top: 15px; }
+        .footer { font-size: 0.8rem; color: #ef233c; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <div class="card">
         <h1 id="header">Jane, will you be my valentine?</h1>
-
-        <div id="mainUI">
+        
+        <div id="controls">
             <div class="btn-container">
                 <button id="yesBtn" onclick="celebrate()">YES</button>
                 <button id="noBtn" onmouseover="teleport()" ontouchstart="teleport()">NO</button>
             </div>
-            <p id="subtext" class="footer-text">"No" seems to be a bit shy 🙈</p>
+            <p id="subtext" class="footer">"No" seems to be a bit shy 🙈</p>
         </div>
 
-        <img id="victoryGif" src="
+        <img id="victoryGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYzeWoxZ294bmZ6eXlzYnF4ZzRyeGZ6bnB6ZzRyeGZ6bnB6ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Cute Bears">
+        <div id="msg">See you on the 14th! ✨</div>
+    </div>
+
+    <script>
+        function teleport() {
+            const btn = document.getElementById('noBtn');
+            btn.style.position = 'absolute';
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.getElementById('header').innerHTML = "I KNEW IT! ❤️";
+            document.getElementById('controls').style.display = 'none';
+            document.getElementById('victoryGif').style.display = 'block';
+            document.getElementById('msg').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
