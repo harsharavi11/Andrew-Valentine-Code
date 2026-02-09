@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URGENT SYSTEM ALERT</title>
+    <meta property="og:title" content="A special message for Jane">
+    <meta property="og:description" content="Please respond immediately.">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #ffeef2;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 { color: #ff0055; font-size: 2.5rem; z-index: 10; padding: 20px; }
+        #yesBtn {
+            padding: 15px 45px;
+            font-size: 1.8rem;
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #noBtn {
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            position: absolute; 
+            transition: all 0.1s ease-out;
+            z-index: 5;
+            touch-action: none;
+            user-select: none;
+        }
+        #victoryGif {
+            display: none;
+            width: 80%;
+            max-width: 350px;
+            margin-top: 20px;
+            border-radius: 15px;
+            z-index: 20;
+        }
+        .footer-text { position: absolute; bottom: 20px; font-weight: bold; color: #888; }
+    </style>
+</head>
+<body>
+
+    <h1 id="header">Jane, will you be my valentine?</h1>
+
+    <div style="height: 100px; display: flex; align-items: center; justify-content: center; gap: 20px;">
+        <button id="yesBtn" onclick="celebrate()">YES</button>
+        <button id="noBtn" onmouseover="teleport()" ontouchstart="teleport()">NO</button>
+    </div>
+
+    <img id="victoryGif" src="https://media.giphy.com/media/l0HlvU6gXnZHwnB3G/giphy.gif" alt="Success!">
+
+    <p id="subtext" class="footer-text">"No" seems to be a bit shy...</p>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+
+        function teleport() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            confetti({
+                particleCount: 250,
+                spread: 120,
+                origin: { y: 0.6 }
+            });
+
+            document.getElementById('header').innerHTML = "I KNEW IT! ❤️";
+            document.getElementById('yesBtn').style.display = 'none';
+            document.getElementById('noBtn').style.display = 'none';
+            document.getElementById('subtext').innerHTML = "See you on the 14th!";
+
+            const gif = document.getElementById('victoryGif');
+            gif.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
