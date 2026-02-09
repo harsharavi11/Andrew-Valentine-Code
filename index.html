@@ -3,99 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URGENT SYSTEM ALERT</title>
-    <meta property="og:title" content="A special message for Jane">
-    <meta property="og:description" content="Please respond immediately.">
-    
+    <title>For Jane ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --dark-pink: #c9184a;
+            --soft-pink: #ffccd5;
+        }
+
         body {
-            text-align: center;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffeef2;
-            height: 100vh;
             margin: 0;
-            overflow: hidden;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
         }
-        h1 { color: #ff0055; font-size: 2.5rem; z-index: 10; padding: 20px; }
+
+        /* Glassmorphism Card */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        h1 {
+            color: var(--dark-pink);
+            font-size: 2.2rem;
+            margin-top: 0;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+            position: relative;
+        }
+
         #yesBtn {
-            padding: 15px 45px;
-            font-size: 1.8rem;
-            background-color: #ff4d6d;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            background-color: var(--primary-pink);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 15px rgba(255, 77, 109, 0.3);
+            z-index: 20;
+            transition: transform 0.2s;
         }
+
+        #yesBtn:active { transform: scale(0.95); }
+
         #noBtn {
-            padding: 10px 25px;
-            font-size: 1.2rem;
-            background-color: #6c757d;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            background-color: #adb5bd;
             color: white;
             border: none;
             border-radius: 50px;
-            position: absolute; 
-            transition: all 0.1s ease-out;
-            z-index: 5;
+            cursor: pointer;
+            z-index: 20;
+            position: relative;
             touch-action: none;
-            user-select: none;
         }
+
         #victoryGif {
             display: none;
-            width: 80%;
-            max-width: 350px;
-            margin-top: 20px;
+            width: 100%;
             border-radius: 15px;
-            z-index: 20;
+            margin: 20px 0;
         }
-        .footer-text { position: absolute; bottom: 20px; font-weight: bold; color: #888; }
+
+        #finalMessage {
+            display: none;
+            color: var(--dark-pink);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .footer-text {
+            color: var(--dark-pink);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <h1 id="header">Jane, will you be my valentine?</h1>
+    <div class="card">
+        <h1 id="header">Jane, will you be my valentine?</h1>
 
-    <div style="height: 100px; display: flex; align-items: center; justify-content: center; gap: 20px;">
-        <button id="yesBtn" onclick="celebrate()">YES</button>
-        <button id="noBtn" onmouseover="teleport()" ontouchstart="teleport()">NO</button>
-    </div>
+        <div id="mainUI">
+            <div class="btn-container">
+                <button id="yesBtn" onclick="celebrate()">YES</button>
+                <button id="noBtn" onmouseover="teleport()" ontouchstart="teleport()">NO</button>
+            </div>
+            <p id="subtext" class="footer-text">"No" seems to be a bit shy 🙈</p>
+        </div>
 
-    <img id="victoryGif" src="https://media.giphy.com/media/l0HlvU6gXnZHwnB3G/giphy.gif" alt="Success!">
-
-    <p id="subtext" class="footer-text">"No" seems to be a bit shy...</p>
-
-    <script>
-        const noBtn = document.getElementById('noBtn');
-
-        function teleport() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-        }
-
-        function celebrate() {
-            confetti({
-                particleCount: 250,
-                spread: 120,
-                origin: { y: 0.6 }
-            });
-
-            document.getElementById('header').innerHTML = "I KNEW IT! ❤️";
-            document.getElementById('yesBtn').style.display = 'none';
-            document.getElementById('noBtn').style.display = 'none';
-            document.getElementById('subtext').innerHTML = "See you on the 14th!";
-
-            const gif = document.getElementById('victoryGif');
-            gif.style.display = 'block';
-        }
-    </script>
-</body>
-</html> 
+        <img id="victoryGif" src="
